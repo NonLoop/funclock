@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Privacy Policy — Fun Clock</title>
+  <meta name="description" content="Privacy Policy for Fun Clock. Contact yugakhans@gmail.com." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #07080d;
+      --ink: #f4f1ea;
+      --muted: #a7a39a;
+      --line: rgba(255, 255, 255, 0.12);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(900px 480px at 12% -10%, rgba(46, 245, 196, 0.12), transparent 60%),
+        radial-gradient(800px 520px at 90% 0%, rgba(124, 92, 255, 0.16), transparent 55%),
+        var(--bg);
+      font-family: Outfit, "Noto Sans SC", "Noto Sans JP", sans-serif;
+      line-height: 1.7;
+    }
+    html[lang="zh"] { font-family: "Noto Sans SC", Outfit, sans-serif; }
+    html[lang="ja"] { font-family: "Noto Sans JP", Outfit, sans-serif; }
+    a { color: #fff; }
+    .wrap { width: min(760px, calc(100% - 40px)); margin: 0 auto; }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(16px);
+      background: rgba(7, 8, 13, 0.72);
+    }
+    .nav {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      text-decoration: none;
+      color: inherit;
+    }
+    .mark {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: linear-gradient(160deg, #7c5cff, #2b4bff 55%, #1230a8);
+      position: relative;
+    }
+    .mark::after {
+      content: "";
+      position: absolute;
+      inset: 7px 8px 8px;
+      border: 1.5px solid #fff;
+      border-radius: 2px;
+    }
+    .langs { display: flex; gap: 4px; padding: 4px; border: 1px solid var(--line); border-radius: 999px; }
+    .langs button {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      font: inherit;
+      font-size: 13px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+    .langs button[aria-pressed="true"] { background: #fff; color: #111; }
+    h1 {
+      font-family: "Instrument Serif", "Noto Sans SC", "Noto Sans JP", serif;
+      font-weight: 400;
+      font-size: clamp(40px, 6vw, 64px);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin: 48px 0 8px;
+    }
+    html[lang="zh"] h1, html[lang="ja"] h1 { letter-spacing: 0; }
+    .updated { color: var(--muted); margin: 0 0 28px; }
+    .contact {
+      padding: 18px 20px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.03);
+      margin-bottom: 28px;
+    }
+    h2 {
+      font-size: 20px;
+      font-weight: 600;
+      margin: 32px 0 8px;
+    }
+    p { margin: 0 0 12px; color: #ddd8cf; }
+    ul { margin: 0 0 12px; padding-left: 1.2em; color: #ddd8cf; }
+    li { margin: 6px 0; }
+    footer {
+      margin-top: 48px;
+      border-top: 1px solid var(--line);
+      padding: 28px 0 48px;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    footer a { color: #fff; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav">
+      <a class="brand" href="index.html"><span class="mark"></span> Fun Clock</a>
+      <div class="langs" role="group" aria-label="Language">
+        <button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-set-lang="zh" aria-pressed="false">中文</button>
+        <button type="button" data-set-lang="ja" aria-pressed="false">日本語</button>
+      </div>
+    </div>
+  </header>
+  <main class="wrap">
+    <h1 id="title">Privacy Policy</h1>
+    <p class="updated" id="updated">Last updated: September 19, 2026</p>
+    <div class="contact" id="contact"></div>
+    <div id="body"></div>
+  </main>
+  <footer class="wrap">
+    <a href="index.html" id="back">Back to Fun Clock</a>
+    <a href="mailto:yugakhans@gmail.com">yugakhans@gmail.com</a>
+  </footer>
+  <script>
+    const pages = {
+      en: {
+        title: "Privacy Policy",
+        docTitle: "Privacy Policy — Fun Clock",
+        updated: "Last updated: September 19, 2026",
+        contact: "Questions about this policy: <a href=\"mailto:yugakhans@gmail.com\">yugakhans@gmail.com</a>",
+        back: "Back to Fun Clock",
+        sections: [
+          { h: "Who we are", p: ["Fun Clock is a clock app with animated themes and ticking sounds. This policy explains what information the app touches and what it does not. We do not ask you to create an account."] },
+          { h: "Information stored on your device", p: ["Settings stay on the device. That includes the clock you picked, sound on or off, language, 12/24-hour time, date display, orientation, and whether a purchase or ad unlock is active. This data is not uploaded to a Fun Clock server, because we do not run one."] },
+          { h: "Advertising", p: ["The free version may show ads through Google AdMob. Google and its partners may collect an advertising identifier, device type, coarse location, IP address, and how you interact with an ad, so they can serve and measure ads.", "You can limit ad tracking in your device settings. Buying the unlock removes ads in the app. Google’s policy: <a href=\"https://policies.google.com/privacy\">policies.google.com/privacy</a>."] },
+          { h: "Purchases", p: ["Payments are handled by Apple App Store or Google Play. We do not receive your card number. The store tells the app whether the unlock was purchased or restored, so themes can be opened and ads removed."] },
+          { h: "Device information", p: ["The app may read basic device details, such as operating system and model, to run correctly and to let the ad network serve a compatible ad. Battery level is shown on screen and is not sent to us."] },
+          { h: "What we do not collect", p: ["We do not collect your name, email, contacts, photos, microphone recordings, or precise GPS location. The ticking sounds play on the device. They are not recorded."] },
+          { h: "Children", p: ["Fun Clock is not directed at children under 13. We do not knowingly collect personal information from children. If you believe a child has contacted us, email yugakhans@gmail.com and we will delete what we have."] },
+          { h: "Retention and your choices", p: ["On-device settings remain until you clear the app data, uninstall the app, or change the setting. Ad and purchase records are kept by Google or Apple under their own policies. To ask a question or request deletion of any message you sent us, email yugakhans@gmail.com."] },
+          { h: "Changes", p: ["If this policy changes, the new date will appear at the top of this page. Continued use of Fun Clock after an update means you accept the revised policy."] }
+        ]
+      },
+      zh: {
+        title: "隐私协议",
+        docTitle: "隐私协议 — 有趣时钟",
+        updated: "最近更新：2026年9月19日",
+        contact: "对本协议有疑问，请联系：<a href=\"mailto:yugakhans@gmail.com\">yugakhans@gmail.com</a>",
+        back: "返回有趣时钟",
+        sections: [
+          { h: "我们是谁", p: ["有趣时钟是一款带有动画主题和滴答声的时钟应用。本协议说明应用会接触哪些信息，以及不会收集哪些信息。使用本应用不需要注册账号。"] },
+          { h: "保存在你设备上的信息", p: ["设置只留在本机，包括当前时钟、音效开关、语言、12/24 小时制、日期显示、横竖屏，以及购买或广告解锁是否生效。我们没有自己的服务器，这些内容不会上传到有趣时钟的服务器。"] },
+          { h: "广告", p: ["免费版可能通过 Google AdMob 展示广告。Google 及其合作方可能收集广告标识符、设备类型、大致位置、IP 地址，以及你与广告的互动，用于投放和衡量广告。", "你可以在系统设置中限制广告跟踪。购买解锁后，应用内广告会被移除。Google 的政策：<a href=\"https://policies.google.com/privacy\">policies.google.com/privacy</a>。"] },
+          { h: "内购", p: ["付款由 Apple App Store 或 Google Play 处理。我们收不到你的银行卡号。商店只会告知应用解锁是否已购买或已恢复，以便打开全部主题并去除广告。"] },
+          { h: "设备信息", p: ["应用可能读取操作系统和机型等基本信息，以便正常运行，并让广告网络投放兼容的广告。电量只显示在屏幕上，不会发给我们。"] },
+          { h: "我们不收集的内容", p: ["我们不收集你的姓名、电子邮箱、通讯录、照片、麦克风录音或精确 GPS 位置。滴答声在设备上播放，不会被录音。"] },
+          { h: "儿童", p: ["有趣时钟不以 13 岁以下儿童为对象，我们不会故意收集儿童的个人信息。如果你认为有儿童联系了我们，请发邮件至 yugakhans@gmail.com，我们会删除相关内容。"] },
+          { h: "保存期限与你的选择", p: ["本机设置会一直保留，直到你清除应用数据、卸载应用或自己修改设置。广告和购买记录由 Google 或 Apple 按其自身政策保存。如需询问，或要求删除你发给我们的邮件，请联系 yugakhans@gmail.com。"] },
+          { h: "变更", p: ["本协议如有更新，页面顶部的日期会一并更新。更新后继续使用有趣时钟，即表示你接受修订后的协议。"] }
+        ]
+      },
+      ja: {
+        title: "プライバシーポリシー",
+        docTitle: "プライバシーポリシー — Fun Clock",
+        updated: "最終更新：2026年9月19日",
+        contact: "このポリシーについての問い合わせ：<a href=\"mailto:yugakhans@gmail.com\">yugakhans@gmail.com</a>",
+        back: "Fun Clock に戻る",
+        sections: [
+          { h: "運営者", p: ["Fun Clock は、アニメーションの時計テーマとチクタク音を備えた時計アプリです。このポリシーは、アプリが扱う情報と扱わない情報を説明します。アカウント登録は不要です。"] },
+          { h: "端末内に保存される情報", p: ["設定は端末内に残ります。選んだ時計、音のオン／オフ、言語、12／24時間表示、日付表示、画面の向き、購入または広告アンロックの状態が含まれます。Fun Clock のサーバーはなく、これらはアップロードされません。"] },
+          { h: "広告", p: ["無料版では Google AdMob を通じて広告を表示することがあります。Google とその提携先は、広告識別子、端末の種類、おおよその位置、IP アドレス、広告とのやり取りを、広告の配信と測定のために収集する場合があります。", "端末の設定で広告トラッキングを制限できます。アンロックを購入すると、アプリ内の広告は表示されません。Google のポリシー：<a href=\"https://policies.google.com/privacy\">policies.google.com/privacy</a>。"] },
+          { h: "購入", p: ["支払いは Apple App Store または Google Play が処理します。カード番号は当社に渡りません。ストアは、アンロックが購入または復元されたかどうかだけをアプリに伝え、全テーマの解放と広告の非表示に使います。"] },
+          { h: "端末情報", p: ["アプリは、正しく動作させ、広告ネットワークが対応する広告を出すために、OS や機種などの基本情報を読み取ることがあります。バッテリー残量は画面表示のみで、当社には送信されません。"] },
+          { h: "収集しないもの", p: ["氏名、メールアドレス、連絡先、写真、マイクの録音、正確な GPS 位置は収集しません。チクタク音は端末上で再生され、録音されません。"] },
+          { h: "子ども", p: ["Fun Clock は 13 歳未満の子どもを対象にしていません。子どもの個人情報を故意に収集することはありません。子どもが連絡したと思われる場合は yugakhans@gmail.com までメールしてください。受け取った内容は削除します。"] },
+          { h: "保存期間と選択", p: ["端末内の設定は、アプリデータを消去するか、アンインストールするか、設定を変えるまで残ります。広告と購入の記録は Google または Apple が各自のポリシーに従って保管します。質問、または当社に送ったメールの削除依頼は yugakhans@gmail.com まで。"] },
+          { h: "変更", p: ["このポリシーを変更する場合は、ページ上部の日付を更新します。更新後も Fun Clock を使い続けることは、改定後のポリシーに同意したことを意味します。"] }
+        ]
+      }
+    };
+
+    function render(lang) {
+      const page = pages[lang] || pages.en;
+      const active = pages[lang] ? lang : "en";
+      document.documentElement.lang = active;
+      document.title = page.docTitle;
+      document.getElementById("title").textContent = page.title;
+      document.getElementById("updated").textContent = page.updated;
+      document.getElementById("contact").innerHTML = page.contact;
+      document.getElementById("back").textContent = page.back;
+      document.getElementById("body").innerHTML = page.sections.map((section) => {
+        const paras = section.p.map((text) => "<p>" + text + "</p>").join("");
+        return "<h2>" + section.h + "</h2>" + paras;
+      }).join("");
+      document.querySelectorAll("[data-set-lang]").forEach((btn) => {
+        btn.setAttribute("aria-pressed", btn.getAttribute("data-set-lang") === active ? "true" : "false");
+      });
+      try { localStorage.setItem("funclock-lang", active); } catch (e) {}
+    }
+
+    document.querySelectorAll("[data-set-lang]").forEach((btn) => {
+      btn.addEventListener("click", () => render(btn.getAttribute("data-set-lang")));
+    });
+
+    let initial = "en";
+    try {
+      const saved = localStorage.getItem("funclock-lang");
+      if (saved && pages[saved]) initial = saved;
+    } catch (e) {}
+    render(initial);
+  </script>
+</body>
+</html>

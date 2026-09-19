@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fun Clock — Nice Ticking Sound</title>
+  <meta name="description" content="51 animated clock themes and 24 ticking sounds. A quiet screen for focus, study, and the hours you cannot sleep." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-top: #161822;
+      --bg-mid: #0e1016;
+      --bg-deep: #0a0b10;
+      --card: #1a1c24;
+      --popup: #1f2128;
+      --accent: #6366f1;
+      --accent-bright: #818cf8;
+      --accent-pale: #c7cbff;
+      --ink: #e8e8ea;
+      --muted: #9b9da6;
+      --line: rgba(255, 255, 255, 0.08);
+      --line-strong: rgba(255, 255, 255, 0.12);
+      --neon-pink: #ff4de8;
+      --neon-cyan: #00f0ff;
+      --mint: #2ef5c4;
+      --display: "Bebas Neue", "Noto Sans SC", sans-serif;
+      --sans: Outfit, "Noto Sans SC", sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: linear-gradient(180deg, var(--bg-top), var(--bg-mid) 55%, var(--bg-deep));
+      background-attachment: fixed;
+      color: var(--ink);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; }
+    ::selection { background: var(--accent); color: #fff; }
+
+    .wrap { width: min(1200px, calc(100% - 48px)); margin: 0 auto; position: relative; z-index: 1; }
+
+    /* ---------- nav ---------- */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      background: linear-gradient(180deg, rgba(22, 24, 34, 0.92), rgba(22, 24, 34, 0.55));
+      backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.4s ease;
+    }
+    header.scrolled { border-bottom-color: var(--line); }
+    .nav { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-mark {
+      width: 32px; height: 32px; border-radius: 12px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.14), rgba(255,255,255,0.06));
+      border: 1px solid var(--line-strong);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.28);
+      display: grid; place-items: center;
+      position: relative;
+    }
+    .brand-mark::after {
+      content: ""; width: 14px; height: 14px; border-radius: 50%;
+      border: 2px solid var(--accent-bright);
+      position: relative;
+    }
+    .brand-name { font-family: var(--display); font-size: 22px; letter-spacing: 0.08em; color: var(--ink); }
+    .nav-right { display: flex; align-items: center; gap: 16px; }
+    .langs {
+      display: flex; gap: 2px; padding: 3px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04));
+      border: 1px solid var(--line-strong); border-radius: 999px;
+    }
+    .langs button {
+      border: 0; background: transparent; color: var(--muted);
+      font: inherit; font-size: 12px; padding: 6px 13px; border-radius: 999px; cursor: pointer;
+      transition: color 0.22s ease, background 0.22s ease;
+    }
+    .langs button:hover { color: var(--ink); }
+    .langs button[aria-pressed="true"] {
+      background: linear-gradient(135deg, rgba(99,102,241,0.32), rgba(99,102,241,0.12));
+      border: 1px solid rgba(99,102,241,0.35);
+      color: var(--accent-pale);
+      padding: 5px 12px;
+    }
+    .nav-download {
+      font-size: 13px; font-weight: 500; letter-spacing: 0.04em;
+      padding: 10px 22px; border-radius: 12px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.14), rgba(255,255,255,0.06));
+      border: 1px solid var(--line-strong);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.28);
+      color: var(--ink);
+      transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+    }
+    .nav-download:hover {
+      background: linear-gradient(135deg, rgba(99,102,241,0.32), rgba(99,102,241,0.14));
+      border-color: rgba(99,102,241,0.35);
+      transform: translateY(-1px);
+    }
+
+    /* ---------- app-style glass chip ---------- */
+    .chip {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 9px 18px; border-radius: 16px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.06));
+      border: 1px solid var(--line);
+      font-size: 14px; font-weight: 300; letter-spacing: 0.1em; color: rgba(255,255,255,0.9);
+    }
+
+    /* ---------- hero ---------- */
+    .hero {
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; gap: 56px;
+      padding: 150px 0 90px;
+      position: relative;
+    }
+    .hero::before {
+      content: ""; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 720px; height: 220px; border-radius: 50%;
+      background: radial-gradient(closest-side, rgba(99,102,241,0.14), rgba(99,102,241,0.04) 60%, transparent);
+      pointer-events: none;
+    }
+    .eyebrow { margin-bottom: 26px; }
+    .eyebrow .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent-bright);
+      box-shadow: 0 0 12px rgba(99,102,241,0.8);
+    }
+    h1 {
+      font-family: var(--display);
+      font-weight: 400;
+      font-size: clamp(56px, 6.6vw, 100px);
+      line-height: 0.98;
+      letter-spacing: 0.015em;
+      margin-bottom: 26px;
+      color: var(--ink);
+    }
+    h1 em { font-style: normal; color: var(--accent-bright); text-shadow: 0 0 32px rgba(99,102,241,0.45); }
+    .lede { font-size: 17px; color: var(--muted); max-width: 440px; margin-bottom: 44px; }
+    .store-btns { display: flex; flex-wrap: wrap; gap: 12px; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 50px; padding: 0 30px; border-radius: 12px;
+      font-size: 14px; font-weight: 500; letter-spacing: 0.03em;
+      border: 1px solid transparent;
+      transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn:active { transform: scale(0.97); }
+    .btn-primary {
+      background: linear-gradient(135deg, #6f72f5, var(--accent) 55%, #4f52d6);
+      border-color: rgba(129,140,248,0.5);
+      color: #fff;
+      box-shadow: 0 8px 24px rgba(99,102,241,0.28), inset 0 1px 0 rgba(255,255,255,0.18);
+    }
+    .btn-primary:hover { box-shadow: 0 12px 32px rgba(99,102,241,0.42); }
+    .btn-glass {
+      background: linear-gradient(135deg, rgba(255,255,255,0.14), rgba(255,255,255,0.06));
+      border-color: var(--line-strong);
+      color: var(--ink);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.28);
+    }
+    .btn-glass:hover {
+      background: linear-gradient(135deg, rgba(99,102,241,0.32), rgba(99,102,241,0.12));
+      border-color: rgba(99,102,241,0.35);
+      color: var(--accent-pale);
+    }
+
+    /* ---------- hero stage: a mini app screen (aurora) ---------- */
+    .stage {
+      position: relative; height: 540px; border-radius: 24px; overflow: hidden;
+      background: linear-gradient(180deg, #020b12, #061820 35%, #0a0e1a 70%, #000);
+      border: 1px solid var(--line-strong);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(0,0,0,0.4);
+    }
+    .aurora-band {
+      position: absolute; left: -10%; right: -10%; top: 8%; height: 46%;
+      background:
+        radial-gradient(38% 62% at 24% 58%, rgba(46, 245, 196, 0.42), transparent 70%),
+        radial-gradient(42% 70% at 52% 40%, rgba(72, 224, 255, 0.30), transparent 72%),
+        radial-gradient(45% 82% at 76% 60%, rgba(123, 108, 255, 0.34), transparent 70%),
+        radial-gradient(30% 60% at 90% 42%, rgba(200, 107, 255, 0.26), transparent 72%);
+      filter: blur(22px);
+      animation: drift 14s ease-in-out infinite alternate;
+    }
+    @keyframes drift {
+      from { transform: translateY(0) scaleY(1); opacity: 0.85; }
+      to { transform: translateY(-18px) scaleY(1.12); opacity: 1; }
+    }
+    .stage-dust {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(2px 2px at 18% 30%, rgba(139,255,217,0.8), transparent 100%),
+        radial-gradient(1.5px 1.5px at 42% 18%, rgba(160,240,255,0.7), transparent 100%),
+        radial-gradient(2px 2px at 68% 36%, rgba(196,180,255,0.7), transparent 100%),
+        radial-gradient(1.5px 1.5px at 84% 22%, rgba(139,255,217,0.6), transparent 100%),
+        radial-gradient(1.5px 1.5px at 30% 62%, rgba(160,240,255,0.5), transparent 100%),
+        radial-gradient(2px 2px at 58% 70%, rgba(139,255,217,0.5), transparent 100%);
+      animation: dustblink 5s ease-in-out infinite alternate;
+    }
+    @keyframes dustblink { from { opacity: 0.5; } to { opacity: 1; } }
+
+    .stage-ui { position: absolute; inset: 0; }
+    .icon-btn {
+      position: absolute; width: 43px; height: 43px; border-radius: 12px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.14), rgba(255,255,255,0.06));
+      border: 1px solid var(--line-strong);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.28);
+      display: grid; place-items: center; color: #e8e8ea;
+    }
+    .icon-btn svg { width: 20px; height: 20px; }
+    .icon-btn.tl { top: 18px; left: 18px; }
+    .icon-btn.tr1 { top: 18px; right: 18px; }
+    .icon-btn.tr2 { top: 18px; right: 69px; }
+    .icon-btn.br { bottom: 18px; right: 18px; }
+    .icon-btn.on {
+      background: linear-gradient(135deg, rgba(99,102,241,0.32), rgba(99,102,241,0.14));
+      border-color: rgba(99,102,241,0.35);
+      color: #c7cbff;
+    }
+
+    .stage-date { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); border-radius: 16px; }
+    .stage-date .chip { padding: 8px 16px; font-size: 13px; letter-spacing: 1px; }
+
+    .stage-time {
+      position: absolute; inset: 0;
+      display: grid; place-items: center; text-align: center;
+    }
+    .time {
+      font-family: var(--display);
+      font-variant-numeric: tabular-nums;
+      font-size: clamp(88px, 8.5vw, 124px);
+      line-height: 1; letter-spacing: 0.02em;
+      color: rgba(255,255,255,0.85);
+      text-shadow: 0 0 44px rgba(46,245,196,0.28), 0 0 90px rgba(72,224,255,0.16);
+      animation: tick 1s steps(1) infinite;
+    }
+    @keyframes tick { 0% { opacity: 1; } 50% { opacity: 0.93; } 100% { opacity: 1; } }
+    .time span { color: rgba(139,255,217,0.9); }
+    .stage-caption {
+      position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%);
+    }
+    .stage-caption .chip { border-radius: 12px; padding: 8px 14px; font-size: 12px; font-weight: 500; }
+    .stage-battery {
+      position: absolute; bottom: 24px; left: 20px;
+      width: 74px; height: 13px; border: 1px solid rgba(255,255,255,0.75); border-radius: 3px;
+      padding: 2px;
+    }
+    .stage-battery i { display: block; width: 68%; height: 100%; background: rgba(255,255,255,0.9); border-radius: 1px; }
+
+    .hero-bottom {
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      grid-column: 1 / -1; margin-top: 30px;
+      color: var(--muted); font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase;
+    }
+    .scroll-line { width: 1px; height: 44px; background: linear-gradient(to bottom, transparent, rgba(99,102,241,0.5)); position: relative; overflow: hidden; }
+    .scroll-line::after { content: ""; position: absolute; top: -50%; left: 0; width: 100%; height: 50%; background: var(--accent-bright); animation: scrollhint 2.2s ease-in-out infinite; }
+    @keyframes scrollhint { to { top: 110%; } }
+
+    /* ---------- showcase / download ---------- */
+    .showcase { padding: 110px 0 90px; position: relative; z-index: 1; }
+    .sec-head { text-align: center; max-width: 640px; margin: 0 auto 64px; }
+    .sec-kicker {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--accent-pale); margin-bottom: 18px;
+      padding: 7px 16px; border-radius: 999px;
+      background: linear-gradient(135deg, rgba(99,102,241,0.32), rgba(99,102,241,0.12));
+      border: 1px solid rgba(99,102,241,0.35);
+    }
+    section h2 {
+      font-family: var(--display);
+      font-size: clamp(40px, 4.6vw, 64px); line-height: 1.02;
+      letter-spacing: 0.02em; margin-bottom: 16px; color: var(--ink);
+    }
+    .sec-lead { color: var(--muted); font-size: 16px; }
+    .showcase-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; align-items: end; }
+    .shot {
+      border-radius: 18px; overflow: hidden;
+      border: 1px solid var(--line-strong);
+      background: var(--card);
+      box-shadow: 0 18px 44px rgba(0,0,0,0.42);
+      transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.5s ease, border-color 0.5s ease;
+    }
+    .shot img { display: block; width: 100%; height: auto; }
+    .shot:hover { transform: translateY(-10px); box-shadow: 0 28px 64px rgba(0,0,0,0.55); border-color: rgba(99,102,241,0.35); }
+    .shot-mid { transform: scale(1.06); z-index: 2; box-shadow: 0 28px 70px rgba(0,0,0,0.55), 0 0 48px rgba(99,102,241,0.10); }
+    .shot-mid:hover { transform: scale(1.06) translateY(-10px); }
+    .shot-cap { text-align: center; margin-top: 16px; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
+    .showcase-btns { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-top: 56px; }
+
+    /* ---------- marquee ---------- */
+    .marquee-band {
+      border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+      padding: 20px 0; overflow: hidden; position: relative; z-index: 1;
+      background: rgba(26, 28, 36, 0.5);
+    }
+    .marquee { display: flex; gap: 56px; width: max-content; animation: marquee 40s linear infinite; }
+    .marquee span {
+      font-family: var(--display); font-size: 20px; letter-spacing: 0.12em;
+      color: rgba(232, 232, 234, 0.4); white-space: nowrap;
+      display: flex; align-items: center; gap: 56px; text-transform: uppercase;
+    }
+    .marquee span::after { content: "·"; color: var(--accent-bright); }
+    @keyframes marquee { to { transform: translateX(-50%); } }
+
+    /* ---------- stats ---------- */
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); padding: 100px 0 80px; }
+    .stat { text-align: center; padding: 0 24px; position: relative; }
+    .stat + .stat::before {
+      content: ""; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+      width: 1px; height: 64px; background: var(--line-strong);
+    }
+    .stat b {
+      display: block; font-family: var(--display); font-weight: 400;
+      font-size: clamp(72px, 7vw, 104px); line-height: 1; color: var(--ink); margin-bottom: 12px;
+    }
+    .stat b i { font-style: normal; color: var(--accent-bright); }
+    .stat span { font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--muted); }
+
+    /* ---------- sections ---------- */
+    section { padding: 100px 0; position: relative; z-index: 1; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .card {
+      background: rgba(26, 28, 36, 0.92);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 34px 30px; min-height: 220px;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.28);
+      display: flex; flex-direction: column;
+      transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(99,102,241,0.35);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.4), 0 0 24px rgba(99,102,241,0.08);
+    }
+    .card-ico {
+      width: 36px; height: 36px; border-radius: 11px;
+      background: linear-gradient(135deg, rgba(99,102,241,0.28), rgba(99,102,241,0.12));
+      border: 1px solid rgba(99,102,241,0.3);
+      display: grid; place-items: center; margin-bottom: 24px;
+      color: var(--accent-bright);
+    }
+    .card-ico svg { width: 18px; height: 18px; }
+    .card strong { display: block; font-size: 16px; font-weight: 600; color: var(--ink); margin-bottom: 10px; letter-spacing: 0.02em; }
+    .card p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.7; }
+
+    /* ---------- themes: real app palettes ---------- */
+    .theme-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .theme {
+      height: 250px; border-radius: 14px; position: relative; overflow: hidden;
+      border: 1px solid var(--line-strong);
+      transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.45s ease, border-color 0.45s ease;
+    }
+    .theme:hover { transform: translateY(-8px) scale(0.99); box-shadow: 0 20px 48px rgba(0,0,0,0.5); }
+    .theme em {
+      position: absolute; left: 20px; top: 44%;
+      font-style: normal; font-family: var(--display);
+      font-size: 44px; letter-spacing: 0.04em; font-variant-numeric: tabular-nums;
+    }
+    .theme .tag {
+      position: absolute; left: 14px; right: 14px; bottom: 12px;
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 8px 12px; border-radius: 11px;
+      background: linear-gradient(180deg, transparent, rgba(0,0,0,0.55));
+      font-size: 12px; font-weight: 500; letter-spacing: 0.08em; color: rgba(255,255,255,0.92);
+    }
+    .theme .tag i { font-style: normal; font-size: 10px; letter-spacing: 0.2em; color: rgba(255,255,255,0.5); }
+
+    /* Aurora */
+    .t1 {
+      background:
+        radial-gradient(45% 50% at 22% 30%, rgba(46,245,196,0.5), transparent 70%),
+        radial-gradient(40% 55% at 65% 28%, rgba(72,224,255,0.4), transparent 72%),
+        radial-gradient(42% 60% at 85% 55%, rgba(123,108,255,0.42), transparent 70%),
+        linear-gradient(180deg, #020b12, #061820 40%, #0a0e1a 72%, #000);
+      color: rgba(255,255,255,0.85);
+    }
+    .t1 em { text-shadow: 0 0 26px rgba(46,245,196,0.5); }
+    /* Firefly */
+    .t2 {
+      background:
+        radial-gradient(circle at 30% 62%, rgba(255,179,71,0.55) 1.5px, transparent 5px),
+        radial-gradient(circle at 52% 44%, rgba(255,224,138,0.65) 1.5px, transparent 4px),
+        radial-gradient(circle at 70% 66%, rgba(200,255,154,0.5) 1px, transparent 4px),
+        radial-gradient(circle at 82% 38%, rgba(255,179,71,0.4) 1.5px, transparent 4px),
+        radial-gradient(70% 40% at 50% 108%, rgba(255,138,61,0.35), transparent 70%),
+        radial-gradient(36% 30% at 76% 16%, rgba(255,240,200,0.4), transparent 70%),
+        linear-gradient(180deg, #12101f, #241830 32%, #1e160a 68%, #0c0a04);
+      color: rgba(255,255,255,0.85);
+    }
+    .t2 em { color: #f9d86c; text-shadow: 0 0 26px rgba(249,216,108,0.5); }
+    /* Rainy glass */
+    .t3 {
+      background:
+        radial-gradient(2px 2px at 22% 26%, rgba(179,229,252,0.9), transparent 100%),
+        radial-gradient(1.5px 1.5px at 40% 52%, rgba(129,212,250,0.8), transparent 100%),
+        radial-gradient(2px 2px at 62% 30%, rgba(79,195,247,0.8), transparent 100%),
+        radial-gradient(1.5px 1.5px at 80% 58%, rgba(179,229,252,0.7), transparent 100%),
+        radial-gradient(50% 36% at 50% 112%, rgba(20,64,95,0.8), transparent 70%),
+        linear-gradient(180deg, #03060e, #08192c 55%, #02040a);
+      color: rgba(255,255,255,0.85);
+    }
+    .t3 em { color: #7fe0f7; text-shadow: 0 0 26px rgba(127,224,247,0.55); }
+    /* Sakura */
+    .t4 {
+      background:
+        radial-gradient(circle at 22% 22%, rgba(255,183,197,0.9) 2px, transparent 5px),
+        radial-gradient(circle at 48% 38%, rgba(255,201,217,0.85) 1.5px, transparent 4px),
+        radial-gradient(circle at 72% 24%, rgba(255,240,245,0.8) 1.5px, transparent 4px),
+        radial-gradient(circle at 84% 52%, rgba(255,183,197,0.7) 2px, transparent 5px),
+        radial-gradient(46% 40% at 24% 88%, rgba(255,143,168,0.22), transparent 70%),
+        linear-gradient(180deg, #2a1a28, #3d2436 35%, #1e1420 72%, #100c14);
+      color: #ffd6e8;
+    }
+    .t4 em { text-shadow: 0 0 26px rgba(255,143,168,0.45); }
+    /* Neon city */
+    .t5 {
+      background:
+        radial-gradient(30% 34% at 22% 78%, rgba(0,240,255,0.14), transparent 70%),
+        radial-gradient(30% 34% at 80% 82%, rgba(255,77,232,0.16), transparent 70%),
+        linear-gradient(180deg, #0a0014, #160028 55%, #1a0038 75%, #05000a);
+      color: #ff4de8;
+    }
+    .t5 em {
+      text-shadow: 0 0 12px rgba(255,43,214,0.85), 0 0 28px rgba(255,43,214,0.6), 0 0 48px rgba(0,240,255,0.5), 0 0 2px #fff;
+    }
+    /* Ink wash (light) */
+    .t6 {
+      background:
+        radial-gradient(120% 90% at 50% -25%, #f7f0dd, #e8d9bc 38%, #d2bfa0 72%, #b89a72);
+      color: #161616;
+    }
+    .t6 em { text-shadow: 2px 3px 6px rgba(0,0,0,0.4), 2px 3px 16px rgba(0,0,0,0.2); }
+    .t6 .tag { background: linear-gradient(180deg, transparent, rgba(0,0,0,0.18)); color: rgba(22,22,22,0.85); }
+    .t6 .tag i { color: rgba(22,22,22,0.5); }
+    .t6::after {
+      content: "印"; position: absolute; right: 16px; top: 16px;
+      width: 26px; height: 26px; border-radius: 4px;
+      background: #a01818; color: #f7f0dd;
+      display: grid; place-items: center;
+      font-size: 12px; font-weight: 700;
+    }
+
+    /* ---------- footer ---------- */
+    footer { border-top: 1px solid var(--line); padding: 52px 0 60px; position: relative; z-index: 1; }
+    .foot { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+    .foot-brand { display: flex; align-items: center; gap: 12px; font-family: var(--display); font-size: 20px; letter-spacing: 0.08em; }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 12px 30px; font-size: 13px; color: var(--muted); }
+    .footer-links a { transition: color 0.25s ease; }
+    .footer-links a:hover { color: var(--accent-bright); }
+
+    /* ---------- reveal ---------- */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1); }
+    .reveal.in { opacity: 1; transform: none; }
+    .d1 { transition-delay: 0.08s; } .d2 { transition-delay: 0.16s; }
+    .d3 { transition-delay: 0.24s; } .d4 { transition-delay: 0.32s; }
+
+    /* ---------- responsive ---------- */
+    @media (max-width: 1000px) {
+      .hero { grid-template-columns: 1fr; gap: 48px; padding-top: 130px; }
+      .stage { height: 460px; }
+      .hero-bottom { display: none; }
+      .showcase-row { grid-template-columns: 1fr; gap: 40px; max-width: 420px; margin: 0 auto; }
+      .shot-mid { transform: none; }
+      .shot-mid:hover { transform: translateY(-10px); }
+    }
+    @media (max-width: 680px) {
+      .nav-download { display: none; }
+      .nav-right { gap: 12px; }
+      .grid, .theme-row { grid-template-columns: 1fr; }
+      .theme { height: 220px; }
+      .stats { grid-template-columns: 1fr; gap: 48px; padding: 72px 0 56px; }
+      .stat + .stat::before { display: none; }
+      section { padding: 72px 0; }
+      .store-btns, .showcase-btns { flex-direction: column; align-items: stretch; }
+      .foot { flex-direction: column; align-items: flex-start; }
+      .stage { height: 420px; }
+      .time { font-size: 76px; }
+      .stage-battery { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <header id="hdr">
+    <div class="wrap nav">
+      <a class="brand" href="#top">
+        <span class="brand-mark"></span>
+        <span class="brand-name">Fun Clock</span>
+      </a>
+      <div class="nav-right">
+        <div class="langs" role="group" aria-label="Language">
+          <button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+          <button type="button" data-set-lang="zh" aria-pressed="false">中文</button>
+          <button type="button" data-set-lang="ja" aria-pressed="false">日本語</button>
+        </div>
+        <a class="nav-download" href="#download" data-i18n="navDownload">Download</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <div class="wrap hero">
+      <div>
+        <div class="eyebrow reveal in"><span class="chip"><span class="dot"></span><span data-i18n="eyebrow">Nice ticking sound</span></span></div>
+        <h1 class="reveal in" data-i18n-html="headline">Time, <em>softly</em> ticking.</h1>
+        <p class="lede reveal in d1" data-i18n="lede">Fifty-one animated clocks and twenty-four ticking sounds. A quiet screen for focus, study, and the hours you cannot sleep.</p>
+        <div class="store-btns reveal in d2">
+          <a class="btn btn-primary" href="https://apps.apple.com/app/id6444765326">App Store</a>
+          <a class="btn btn-glass" href="https://play.google.com/store/apps/details?id=com.yugakhan.funclock">Google Play</a>
+          <a class="btn btn-glass" href="https://yugakhan.github.io/FunClock/assets/app-release.apk" data-i18n="apk">Direct APK</a>
+        </div>
+      </div>
+
+      <!-- mini replica of the app screen (Aurora theme) -->
+      <div class="stage reveal in d1" aria-hidden="true">
+        <div class="aurora-band"></div>
+        <div class="stage-dust"></div>
+        <div class="stage-ui">
+          <div class="icon-btn tl">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a10 10 0 1 1 10-10c0 1.7-1.3 3-3 3h-2.2a2 2 0 0 0-1.5 3.3c.3.4.5.8.5 1.3a2.4 2.4 0 0 1-2.4 2.4Z"/><circle cx="7.5" cy="10.5" r="1"/><circle cx="12" cy="7.5" r="1"/><circle cx="16.5" cy="10.5" r="1"/></svg>
+          </div>
+          <div class="icon-btn tr1">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m3 3 18 18M10.6 5.1A9 9 0 0 1 21 12c-.6 1.2-1.4 2.3-2.4 3.2M6.1 6.1A9 9 0 0 0 3 12c1.7 3.4 5.4 6 9 6 1.4 0 2.7-.3 3.9-.9"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>
+          </div>
+          <div class="icon-btn tr2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
+          </div>
+          <div class="icon-btn br on">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.6 5.4a9 9 0 0 1 0 13.2"/></svg>
+          </div>
+          <div class="stage-date"><span class="chip" id="stage-date">Sat · Sep 19</span></div>
+          <div class="stage-battery"><i></i></div>
+          <div class="stage-time">
+            <div class="time" id="clock">22<span>:08</span>:41</div>
+          </div>
+          <div class="stage-caption"><span class="chip" data-i18n="clockCaption">Aurora · ticking</span></div>
+        </div>
+      </div>
+
+      <div class="hero-bottom">
+        <span data-i18n="scroll">Scroll</span>
+        <div class="scroll-line"></div>
+      </div>
+    </div>
+
+    <div class="wrap showcase" id="download">
+      <div class="sec-head reveal">
+        <span class="sec-kicker" data-i18n="ctaKicker">Download</span>
+        <h2 data-i18n="dlTitle">Keep the tick nearby.</h2>
+        <p class="sec-lead" data-i18n="ctaLead">App Store, Google Play, or a direct APK.</p>
+      </div>
+      <div class="showcase-row">
+        <figure class="reveal">
+          <div class="shot"><img src="images/app-store-01-tick.png" alt="Aurora clock — nice ticking sound" loading="lazy" /></div>
+          <figcaption class="shot-cap" data-i18n="sc1">Ticking sound</figcaption>
+        </figure>
+        <figure class="reveal d1">
+          <div class="shot shot-mid"><img src="images/app-store-02-night.png" alt="Firefly clock by the pillow" loading="lazy" /></div>
+          <figcaption class="shot-cap" data-i18n="sc2">Beside the pillow</figcaption>
+        </figure>
+        <figure class="reveal d2">
+          <div class="shot"><img src="images/app-store-03-themes.png" alt="A mood for every hour" loading="lazy" /></div>
+          <figcaption class="shot-cap" data-i18n="sc3">Many moods</figcaption>
+        </figure>
+      </div>
+      <div class="showcase-btns reveal d2">
+        <a class="btn btn-primary" href="https://apps.apple.com/app/id6444765326">App Store</a>
+        <a class="btn btn-glass" href="https://play.google.com/store/apps/details?id=com.yugakhan.funclock">Google Play</a>
+        <a class="btn btn-glass" href="https://yugakhan.github.io/FunClock/assets/app-release.apk" data-i18n="apk">Direct APK</a>
+      </div>
+    </div>
+
+    <div class="marquee-band" aria-hidden="true">
+      <div class="marquee">
+        <span data-i18n="mq1">Aurora</span><span data-i18n="mq2">Firefly</span><span data-i18n="mq3">Ink wash</span><span data-i18n="mq4">Neon rain</span><span data-i18n="mq5">Sakura</span><span data-i18n="mq6">Clockwork</span><span data-i18n="mq7">Meteor</span><span data-i18n="mq8">Frost</span><span data-i18n="mq9">Hologram</span>
+        <span data-i18n="mq1">Aurora</span><span data-i18n="mq2">Firefly</span><span data-i18n="mq3">Ink wash</span><span data-i18n="mq4">Neon rain</span><span data-i18n="mq5">Sakura</span><span data-i18n="mq6">Clockwork</span><span data-i18n="mq7">Meteor</span><span data-i18n="mq8">Frost</span><span data-i18n="mq9">Hologram</span>
+      </div>
+    </div>
+
+    <div class="wrap stats">
+      <div class="stat reveal"><b>51<i>+</i></b><span data-i18n="statThemes">Animated themes</span></div>
+      <div class="stat reveal d1"><b>24<i>+</i></b><span data-i18n="statSounds">Ticking sounds</span></div>
+      <div class="stat reveal d2"><b>3</b><span data-i18n="statLangs">Languages in the app</span></div>
+    </div>
+
+    <section class="wrap">
+      <div class="sec-head reveal">
+        <span class="sec-kicker" data-i18n="featuresKicker">Features</span>
+        <h2 data-i18n="featuresTitle">Made to stay on.</h2>
+        <p class="sec-lead" data-i18n="featuresLead">Put it on the desk while you work, or beside the pillow when sleep will not come.</p>
+      </div>
+      <div class="grid">
+        <article class="card reveal">
+          <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+          <strong data-i18n="f1t">51 clock worlds</strong><p data-i18n="f1d">Aurora, fireflies, ink wash, neon rain, sakura, clockwork, and more. Each one moves.</p>
+        </article>
+        <article class="card reveal d1">
+          <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg></span>
+          <strong data-i18n="f2t">A real tick</strong><p data-i18n="f2d">Twenty-four light ticking sounds, paired with the animation so the second has weight.</p>
+        </article>
+        <article class="card reveal d2">
+          <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="14" height="10" rx="2"/><path d="M22 11v2"/><path d="M6 17v3M12 17v3"/></svg></span>
+          <strong data-i18n="f3t">Charging screen</strong><p data-i18n="f3d">Leave it on while the phone charges. Portrait or landscape, the layout follows.</p>
+        </article>
+        <article class="card reveal">
+          <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span>
+          <strong data-i18n="f4t">Home screen widgets</strong><p data-i18n="f4d">iOS widgets for aurora, firefly, frost, neon, meteor, ink, hologram, and sakura.</p>
+        </article>
+        <article class="card reveal d1">
+          <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3.6 9h16.8M3.6 15h16.8M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg></span>
+          <strong data-i18n="f5t">Your language</strong><p data-i18n="f5d">English, Simplified Chinese, and Japanese. Follow the system, or pick one in Settings.</p>
+        </article>
+        <article class="card reveal d2">
+          <span class="card-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10.5" width="16" height="10" rx="2"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></svg></span>
+          <strong data-i18n="f6t">Unlock once</strong><p data-i18n="f6d">A single purchase opens every theme and removes ads. No subscription.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="wrap themes-sec">
+      <div class="sec-head reveal">
+        <span class="sec-kicker" data-i18n="themesKicker">Collections</span>
+        <h2 data-i18n="themesTitle">A mood for the hour.</h2>
+        <p class="sec-lead" data-i18n="themesLead">The same minute can feel like night rain, a pond, or a city that never quite sleeps.</p>
+      </div>
+      <div class="theme-row">
+        <figure class="theme t1 reveal"><em>22:08</em><figcaption class="tag"><span data-i18n="th1">Aurora</span><i>01</i></figcaption></figure>
+        <figure class="theme t2 reveal d1"><em>23:41</em><figcaption class="tag"><span data-i18n="th2">Firefly</span><i>02</i></figcaption></figure>
+        <figure class="theme t3 reveal d2"><em>10:25</em><figcaption class="tag"><span data-i18n="th3">Rain glass</span><i>03</i></figcaption></figure>
+        <figure class="theme t4 reveal"><em>07:12</em><figcaption class="tag"><span data-i18n="th4">Sakura</span><i>04</i></figcaption></figure>
+        <figure class="theme t5 reveal d1"><em>01:33</em><figcaption class="tag"><span data-i18n="th6">Neon city</span><i>05</i></figcaption></figure>
+        <figure class="theme t6 reveal d2"><em>15:06</em><figcaption class="tag"><span data-i18n="th5">Ink wash</span><i>06</i></figcaption></figure>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap foot">
+      <div class="foot-brand"><span class="brand-mark"></span> Fun Clock</div>
+      <div class="footer-links">
+        <a href="mailto:yugakhans@gmail.com">yugakhans@gmail.com</a>
+        <a href="privacy.html" data-i18n="privacy">Privacy Policy</a>
+        <a href="https://www.youtube.com/watch?v=eSbarngeSE4" data-i18n="watch">Watch the demo</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const copy = {
+      en: {
+        eyebrow: "Nice ticking sound",
+        headline: 'Time, <em>softly</em> ticking.',
+        lede: "Fifty-one animated clocks and twenty-four ticking sounds. A quiet screen for focus, study, and the hours you cannot sleep.",
+        navDownload: "Download",
+        apk: "Direct APK",
+        scroll: "Scroll",
+        clockCaption: "Aurora · ticking",
+        mq1: "Aurora", mq2: "Firefly", mq3: "Ink wash", mq4: "Neon rain", mq5: "Sakura", mq6: "Clockwork", mq7: "Meteor", mq8: "Frost", mq9: "Hologram",
+        statThemes: "Animated themes",
+        statSounds: "Ticking sounds",
+        statLangs: "Languages in the app",
+        featuresKicker: "Features",
+        featuresTitle: "Made to stay on.",
+        featuresLead: "Put it on the desk while you work, or beside the pillow when sleep will not come.",
+        f1t: "51 clock worlds", f1d: "Aurora, fireflies, ink wash, neon rain, sakura, clockwork, and more. Each one moves.",
+        f2t: "A real tick", f2d: "Twenty-four light ticking sounds, paired with the animation so the second has weight.",
+        f3t: "Charging screen", f3d: "Leave it on while the phone charges. Portrait or landscape, the layout follows.",
+        f4t: "Home screen widgets", f4d: "iOS widgets for aurora, firefly, frost, neon, meteor, ink, hologram, and sakura.",
+        f5t: "Your language", f5d: "English, Simplified Chinese, and Japanese. Follow the system, or pick one in Settings.",
+        f6t: "Unlock once", f6d: "A single purchase opens every theme and removes ads. No subscription.",
+        themesKicker: "Collections",
+        themesTitle: "A mood for the hour.",
+        themesLead: "The same minute can feel like night rain, a pond, or a city that never quite sleeps.",
+        th1: "Aurora", th2: "Firefly", th3: "Rain glass", th4: "Sakura", th5: "Ink wash", th6: "Neon city",
+        ctaKicker: "Download",
+        dlTitle: "Keep the tick nearby.",
+        ctaLead: "App Store, Google Play, or a direct APK.",
+        sc1: "Ticking sound", sc2: "Beside the pillow", sc3: "Many moods",
+        privacy: "Privacy Policy",
+        watch: "Watch the demo"
+      },
+      zh: {
+        eyebrow: "轻快的滴答声",
+        headline: '时间，轻轻地走。',
+        lede: "51 款动画时钟，24 种滴答声。适合放在桌上专注，也适合失眠时搁在枕边。",
+        navDownload: "下载",
+        apk: "直接下载 APK",
+        scroll: "向下滚动",
+        clockCaption: "极光 · 滴答",
+        mq1: "极光", mq2: "萤火", mq3: "水墨", mq4: "雨夜霓虹", mq5: "樱落", mq6: "发条", mq7: "流星", mq8: "霜雪", mq9: "全息",
+        statThemes: "动画主题",
+        statSounds: "滴答音效",
+        statLangs: "应用内语言",
+        featuresKicker: "功能",
+        featuresTitle: "适合一直开着。",
+        featuresLead: "工作时放在桌上，睡不着时放在枕边。",
+        f1t: "51 个时钟世界", f1d: "极光、萤火、水墨、雨夜霓虹、樱落、发条……每款都在动。",
+        f2t: "真的在滴答", f2d: "24 种轻快滴答声，和动画绑在一起，每一秒都有重量。",
+        f3t: "充电屏保", f3d: "充电时可以一直亮着。横屏竖屏，布局会跟着变。",
+        f4t: "主屏幕小组件", f4d: "iOS 小组件包含极光、萤火、霜雪、霓虹、流星、水墨、全息和樱落。",
+        f5t: "用你的语言", f5d: "英文、简体中文、日语。可跟随系统，也可在设置里选择。",
+        f6t: "一次解锁", f6d: "一次购买打开全部主题并去除广告，没有订阅。",
+        themesKicker: "主题集",
+        themesTitle: "每个时辰，一种心情。",
+        themesLead: "同一分钟，可以是夜雨、池塘，或一座不太睡的城。",
+        th1: "极光", th2: "萤火", th3: "雨玻璃", th4: "樱落", th5: "水墨", th6: "霓虹都市",
+        ctaKicker: "下载",
+        dlTitle: "把滴答声留在手边。",
+        ctaLead: "App Store、Google Play，或直接安装 APK。",
+        sc1: "滴答一声", sc2: "枕边的节奏", sc3: "一种心情",
+        privacy: "隐私政策",
+        watch: "观看演示"
+      },
+      ja: {
+        eyebrow: "やさしいチクタク",
+        headline: '時間は、静かに進む。',
+        lede: "51種類のアニメ時計と24種類の音。集中したい机の上にも、眠れない夜の枕元にも。",
+        navDownload: "ダウンロード",
+        apk: "APK ダウンロード",
+        scroll: "スクロール",
+        clockCaption: "オーロラ · チクタク",
+        mq1: "オーロラ", mq2: "ホタル", mq3: "水墨", mq4: "雨のネオン", mq5: "桜", mq6: "ぜんまい", mq7: "流星", mq8: "霜", mq9: "ホログラム",
+        statThemes: "アニメテーマ",
+        statSounds: "チクタク音",
+        statLangs: "アプリ内の言語",
+        featuresKicker: "機能",
+        featuresTitle: "つけたままに。",
+        featuresLead: "仕事中は机に。眠れない夜は枕元に。",
+        f1t: "51の時計世界", f1d: "オーロラ、ホタル、水墨、雨のネオン、桜、ぜんまい。どれも動いています。",
+        f2t: "本物の一秒", f2d: "24種類の軽いチクタク音。アニメと一緒に、秒に重みを持たせます。",
+        f3t: "充電中の画面", f3d: "充電中も表示したまま。縦でも横でも、レイアウトがついてきます。",
+        f4t: "ホーム画面ウィジェット", f4d: "オーロラ、ホタル、霜、ネオン、流星、水墨、ホログラム、桜の iOS ウィジェット。",
+        f5t: "自分の言語で", f5d: "英語、簡体字中国語、日本語。システムに従うか、設定で選べます。",
+        f6t: "一度の購入", f6d: "一度払えば全テーマが開き、広告も消えます。サブスクリプションはありません。",
+        themesKicker: "コレクション",
+        themesTitle: "時間ごとの気分。",
+        themesLead: "同じ一分が、夜の雨にも、池にも、眠らない街にもなります。",
+        th1: "オーロラ", th2: "ホタル", th3: "雨のガラス", th4: "桜", th5: "水墨", th6: "ネオンシティ",
+        ctaKicker: "ダウンロード",
+        dlTitle: "チクタクを手元に。",
+        ctaLead: "App Store、Google Play、または APK。",
+        sc1: "チクタクの音", sc2: "枕元のリズム", sc3: "いろいろな気分",
+        privacy: "プライバシー",
+        watch: "デモを見る"
+      }
+    };
+
+    const titles = {
+      en: "Fun Clock — Nice Ticking Sound",
+      zh: "有趣时钟 — 轻快的滴答声",
+      ja: "Fun Clock — やさしいチクタク"
+    };
+
+    const dateFormats = {
+      en: { weekday: "short", month: "short", day: "numeric" },
+      zh: { month: "long", day: "numeric", weekday: "short" },
+      ja: { month: "long", day: "numeric", weekday: "short" }
+    };
+
+    function applyLang(lang) {
+      const pack = copy[lang] || copy.en;
+      document.documentElement.lang = copy[lang] ? lang : "en";
+      document.title = titles[document.documentElement.lang];
+      document.querySelectorAll("[data-i18n]").forEach((node) => {
+        const key = node.getAttribute("data-i18n");
+        if (pack[key]) node.textContent = pack[key];
+      });
+      document.querySelectorAll("[data-i18n-html]").forEach((node) => {
+        const key = node.getAttribute("data-i18n-html");
+        if (pack[key]) node.innerHTML = pack[key];
+      });
+      document.querySelectorAll("[data-set-lang]").forEach((btn) => {
+        btn.setAttribute("aria-pressed", btn.getAttribute("data-set-lang") === document.documentElement.lang ? "true" : "false");
+      });
+      try { localStorage.setItem("funclock-lang", document.documentElement.lang); } catch (e) {}
+      paintDate();
+    }
+
+    document.querySelectorAll("[data-set-lang]").forEach((btn) => {
+      btn.addEventListener("click", () => applyLang(btn.getAttribute("data-set-lang")));
+    });
+
+    let initial = "en";
+    try {
+      const saved = localStorage.getItem("funclock-lang");
+      if (saved && copy[saved]) initial = saved;
+    } catch (e) {}
+
+    /* live clock — Bebas Neue digits like the app */
+    const clock = document.getElementById("clock");
+    function paintTime() {
+      const now = new Date();
+      const pad = (n) => String(n).padStart(2, "0");
+      clock.innerHTML = pad(now.getHours()) + "<span>:" + pad(now.getMinutes()) + "</span>:" + pad(now.getSeconds());
+    }
+
+    /* date pill — like the app's date capsule */
+    const datePill = document.getElementById("stage-date");
+    function paintDate() {
+      const fmt = dateFormats[document.documentElement.lang] || dateFormats.en;
+      datePill.textContent = new Date().toLocaleDateString(document.documentElement.lang === "zh" ? "zh-CN" : document.documentElement.lang === "ja" ? "ja-JP" : "en-US", fmt);
+    }
+
+    paintTime();
+    setInterval(paintTime, 1000);
+    applyLang(initial);
+
+    /* header border on scroll */
+    const hdr = document.getElementById("hdr");
+    addEventListener("scroll", () => {
+      hdr.classList.toggle("scrolled", scrollY > 24);
+    }, { passive: true });
+
+    /* scroll reveal */
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+    }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+    document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+  </script>
+</body>
+</html>

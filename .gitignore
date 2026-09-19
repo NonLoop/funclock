@@ -1,0 +1,15 @@
+# OS
+.DS_Store
+.AppleDouble
+Thumbs.db
+
+# Editor
+.idea/
+.vscode/
+*.swp
+*~
+
+# Local tooling
+*.log
+node_modules/
+.cache/
